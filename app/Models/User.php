@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use YourAppRocks\EloquentUuid\Traits\HasUuid;
 
 class User extends Authenticatable
 {
+    use HasUuid;
     use HasApiTokens, HasFactory, Notifiable;
+
+    public $incrementing = false;
+    public $keyType = 'string';
+    protected string $uuidColumnName = 'id';
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
