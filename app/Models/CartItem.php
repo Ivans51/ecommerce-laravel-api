@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use YourAppRocks\EloquentUuid\Traits\HasUuid;
 
-class CarItem extends Model
+class CartItem extends Model
 {
     use HasUuid;
     use HasFactory;
@@ -14,5 +14,4 @@ class CarItem extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
-    protected $table = 'users';
 }

@@ -14,5 +14,4 @@ class OrderDetail extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
-    protected $table = 'users';
 }
