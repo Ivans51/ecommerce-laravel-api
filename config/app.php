@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Facade;
 
+$isProdCustom = env('APP_ENV') == \App\Helpers\Constants::LOCAL;
+
 return [
 
     /*
@@ -54,7 +56,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env($isProdCustom ? 'APP_URL_PROD' : 'APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -211,5 +213,19 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+
+    'config' => [
+        'host'      => env('CONFIG_EMAIL_HOST'),
+        'sender'    => env('CONFIG_EMAIL_SENDER'),
+        'password'  => env('CONFIG_EMAIL_PASSWORD'),
+        'name_user' => env('CONFIG_EMAIL_NAME_USER'),
+    ],
+
+    'recaptcha' => [
+        'recaptcha_site_key' => env('RECAPTCHA_SITE_KEY'),
+        'recaptcha_secret'   => env('RECAPTCHA_SECRET'),
+    ],
+
+    'custom_token' => env('CUSTOM_TOKEN'),
 
 ];

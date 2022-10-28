@@ -16,4 +16,14 @@ class Product extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
+
+    protected $fillable = [
+        'name',
+        'desc',
+        'SKU',
+        'price',
+        'category_id',
+        'inventory_id',
+        'discount_id',
+    ];
 }

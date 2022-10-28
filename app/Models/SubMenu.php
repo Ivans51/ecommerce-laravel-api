@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use YourAppRocks\EloquentUuid\Traits\HasUuid;
 
-class Discount extends Model
+class SubMenu extends Model
 {
     use HasUuid;
     use HasFactory;
 
     public $incrementing = false;
     public $keyType = 'string';
+    public $table = 'sub_menu';
     protected string $uuidColumnName = 'id';
 
     protected $fillable = [
-        'name',
-        'desc',
-        'discount_percentage',
+        'title',
+        'url',
+        'menu_id',
     ];
 }

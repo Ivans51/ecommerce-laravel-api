@@ -14,4 +14,11 @@ class PaymentDetail extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
+
+    protected $fillable = [
+        'order_id',
+        'amount',
+        'provider',
+        'status',
+    ];
 }
