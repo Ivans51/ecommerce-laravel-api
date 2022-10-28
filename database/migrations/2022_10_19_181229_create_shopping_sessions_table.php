@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('shopping_sessions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->decimal('total');
+            $table->decimal('total')->default(0);
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

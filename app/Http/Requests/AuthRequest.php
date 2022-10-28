@@ -19,7 +19,6 @@ class AuthRequest extends FormRequest
 
         return match ($method) {
             'signUp' => [
-                'username'   => 'required|string|unique:users',
                 'first_name' => 'required|string',
                 'last_name'  => 'required|string',
                 'telephone'  => 'string',
@@ -65,7 +64,6 @@ class AuthRequest extends FormRequest
             "token.required"    => __('validation.required', ['attribute' => 'token']),
             "user_id.required"  => __('validation.required', ['attribute' => 'user_id']),
 
-            "username.required"             => __('validation.required', ['attribute' => 'username']),
             "first_name.required"           => __('validation.required', ['attribute' => 'first_name']),
             "last_name.required"            => __('validation.required', ['attribute' => 'last_name']),
             "telephone.required"            => __('validation.required', ['attribute' => 'telephone']),

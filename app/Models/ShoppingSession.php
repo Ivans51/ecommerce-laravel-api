@@ -14,4 +14,9 @@ class ShoppingSession extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
+
+    protected $fillable = [
+        'total',
+        'user_id',
+    ];
 }

@@ -20,7 +20,7 @@ class MenuController extends Controller
      */
     public function customer(Request $request): DataBuilder
     {
-        return $this->getTypeMenu(Constants::CUSTOMER, $request);
+        return $this->getTypeMenu(Constants::ROLE_CUSTOMER, $request);
     }
 
     /**
@@ -29,7 +29,7 @@ class MenuController extends Controller
      */
     public function admin(Request $request): DataBuilder
     {
-        return $this->getTypeMenu(Constants::ADMIN, $request);
+        return $this->getTypeMenu(Constants::ROLE_ADMIN, $request);
     }
 
     /**

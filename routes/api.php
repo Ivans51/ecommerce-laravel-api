@@ -52,7 +52,7 @@ Route::group([
 
     /* Admin */
     Route::group(array(
-        'middleware' => 'checkUserApi:' . Constants::ADMIN
+        'middleware' => 'checkUserApi:' . Constants::ROLE_ADMIN
     ), function () {
         Route::get('users-list', [UserController::class, 'userList']);
         Route::get('cart-items-list', [CartItemController::class, 'cartItemList']);
@@ -79,7 +79,7 @@ Route::group([
 
     /* Customer */
     Route::group(array(
-        'middleware' => 'checkUserApi:' . Constants::CUSTOMER
+        'middleware' => 'checkUserApi:' . Constants::ROLE_CUSTOMER
     ), function () {
         Route::get('menus-customer', [MenuController::class, 'customer']);
 

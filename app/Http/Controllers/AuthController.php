@@ -24,7 +24,7 @@ class AuthController extends Controller
      */
     public function loginCustomer(AuthRequest $request): DataBuilder
     {
-        return $this->login($request, Constants::CUSTOMER);
+        return $this->login($request, Constants::ROLE_CUSTOMER);
     }
 
     /**
@@ -33,7 +33,7 @@ class AuthController extends Controller
      */
     public function loginAdmin(AuthRequest $request): DataBuilder
     {
-        return $this->login($request, Constants::ADMIN);
+        return $this->login($request, Constants::ROLE_ADMIN);
     }
 
     /**
@@ -54,7 +54,7 @@ class AuthController extends Controller
                 $user = Auth::user();
                 $role = UserRole::query()->whereType($roleType[0])->first();
 
-                if ($user->type_id != $role->id) {
+                if ($user->role_id != $role->id) {
                     return $this->api->status(401)->message('Without permission');
                 }
 
@@ -90,13 +90,16 @@ class AuthController extends Controller
                 ->id;
 
             $user = User::create([
-                'username'   => $request->input('username'),
                 'first_name' => $request->input('first_name'),
                 'last_name'  => $request->input('last_name'),
                 'telephone'  => $request->input('telephone'),
                 'email'      => $request->input('email'),
-                'type_id'    => $typeId,
+                'role_id'    => $typeId,
                 'password'   => bcrypt($request->input('password'))
+            ]);
+
+            ShoppingSession::query()->create([
+                'user_id' => $user->id
             ]);
 
             $template = $this->messageManage->templateEmailVerify((object)[
@@ -106,10 +109,6 @@ class AuthController extends Controller
             ]);
 
             $this->messageManage->sendEmail('Verificar email', $template, $user->email);
-
-            ShoppingSession::query()->create([
-                'user_id' => $user->id
-            ]);
 
             DB::commit();
 

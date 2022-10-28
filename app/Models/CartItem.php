@@ -14,4 +14,23 @@ class CartItem extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
+
+    protected $fillable = [
+        'quantity',
+        'session_id',
+        'product_id',
+    ];
+
+    /**
+     * @param $query
+     * @param $dateOne
+     * @param $dateTwo
+     * @return mixed
+     */
+    public function scopeCreatedAt($query, $dateOne, $dateTwo): mixed
+    {
+        return isset($dateOne) && isset($dateTwo)
+            ? $query->whereBetween('created_at', [$dateOne, $dateTwo])
+            : null;
+    }
 }
