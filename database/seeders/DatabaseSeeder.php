@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(
+            [
+                UserRoleSeeder::class,
+            ]
+        );
+
         User::factory(4)->create();
         PaymentDetail::factory(10)->create();
         OrderDetail::factory(10)->create();

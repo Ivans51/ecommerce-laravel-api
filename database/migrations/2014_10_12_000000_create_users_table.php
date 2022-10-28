@@ -23,7 +23,13 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('address')->nullable();
             $table->string('telephone')->nullable();
+            $table->string('image_profile')->nullable();
+            $table->string('token_password_forgot')->nullable();
+            $table->string('token_email_verify')->nullable();
             $table->timestamps();
+            $table->uuid('role_id');
+            $table->foreign('role_id')->references('id')->on('user_roles');
+            $table->softDeletes();
         });
     }
 

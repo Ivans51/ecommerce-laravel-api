@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -26,6 +27,7 @@ class UserFactory extends Factory
             'last_name'         => fake()->lastName(),
             'address'           => fake()->address(),
             'telephone'         => fake()->phoneNumber(),
+            'role_id'           => UserRole::query()->inRandomOrder()->first()->id,
         ];
     }
 
