@@ -59,7 +59,7 @@ class User extends Authenticatable
     /**
      * @return BelongsTo
      */
-    public function userType(): BelongsTo
+    public function userRole(): BelongsTo
     {
         return $this->belongsTo(UserRole::class, 'role_id');
     }
@@ -87,7 +87,7 @@ class User extends Authenticatable
      */
     public function scopeTypeId($query, $value): mixed
     {
-        return isset($value) ? $query->where('type_id', '=', $value) : null;
+        return isset($value) ? $query->where('role_id', '=', $value) : null;
     }
 
     /**

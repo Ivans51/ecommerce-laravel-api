@@ -26,7 +26,7 @@ class UserController extends Controller
     public function profile(): DataBuilder
     {
         $user = User::query()
-            ->with(['userPayment', 'userType', 'userAddress'])
+            ->with(['userRole'])
             ->where('id', '=', Auth::user()->id)
             ->first();
 
@@ -39,41 +39,18 @@ class UserController extends Controller
      */
     public function userList(Request $request): DataBuilder
     {
-        $perPage  = $request->query('per_page', 5);
-        $typeId   = $request->query('role_id');
-        $email    = $request->query('email');
-        $username = $request->query('username');
+        $perPage = $request->query('per_page', 5);
+        $typeId  = $request->query('role_id');
+        $email   = $request->query('email');
 
         $users = User::query()
-            ->with(['userPayment', 'userType', 'userAddress'])
+            ->with(['userRole'])
             ->where('id', '!=', Auth::user()->id)
             ->typeID($typeId)
             ->email($email)
-            ->username($username)
-            ->take(5)
             ->paginate($perPage);
 
         return $this->api->data([$users]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -87,18 +64,17 @@ class UserController extends Controller
         try {
             $password = random_bytes(8);
 
-            $typeId = UserRole::query()
-                ->where('type', '=', $request->input('type_role'))
+            $roleId = UserRole::query()
+                ->where('type', '=', $request->input('type'))
                 ->first()
                 ->id;
 
             $user = User::create([
-                'username'   => $request->input('username'),
                 'first_name' => $request->input('first_name'),
                 'last_name'  => $request->input('last_name'),
                 'telephone'  => $request->input('telephone'),
                 'email'      => $request->input('email'),
-                'type_id'    => $typeId,
+                'role_id'    => $roleId,
                 'password'   => bcrypt($password)
             ]);
 
@@ -187,22 +163,11 @@ class UserController extends Controller
     public function show(string $id): DataBuilder
     {
         $user = User::query()
-            ->with(['userPayment', 'userType', 'userAddress'])
+            ->with(['userRole'])
             ->where('id', '=', $id)
             ->first();
 
         return $this->api->data([$user]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -217,7 +182,6 @@ class UserController extends Controller
     {
         try {
             $response = User::where('id', '=', $id)->update([
-                'username'   => $request->input('username'),
                 'first_name' => $request->input('first_name'),
                 'last_name'  => $request->input('last_name'),
                 'telephone'  => $request->input('telephone'),
@@ -245,8 +209,6 @@ class UserController extends Controller
                 return $this->api->status(400)->message('No puedes borrar tu usuario en sesión');
             } else {
                 DB::beginTransaction();
-                UserPayment::whereUserId($id)->delete();
-                UserAddress::whereUserId($id)->delete();
                 $response = User::whereId($id)->delete();
                 return $this->isUpdated($response);
             }

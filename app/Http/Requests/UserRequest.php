@@ -18,11 +18,10 @@ class UserRequest extends FormRequest
 
         return match ($method) {
             'store' => [
-                'username'   => 'required|string|unique:users',
                 'first_name' => 'required|string',
                 'last_name'  => 'required|string',
                 'telephone'  => 'string',
-                'type_role'  => 'required|string',
+                'type'       => 'required|string',
                 'email'      => 'required|string|email|unique:users',
             ],
             'updateImageProfile' => [
@@ -53,11 +52,10 @@ class UserRequest extends FormRequest
             "token.required"    => __('validation.required', ['attribute' => 'token']),
             "user_id.required"  => __('validation.required', ['attribute' => 'user_id']),
 
-            "username.required"             => __('validation.required', ['attribute' => 'username']),
             "first_name.required"           => __('validation.required', ['attribute' => 'first_name']),
             "last_name.required"            => __('validation.required', ['attribute' => 'last_name']),
             "telephone.required"            => __('validation.required', ['attribute' => 'telephone']),
-            "type_role.required"            => __('validation.required', ['attribute' => 'type_role']),
+            "type.required"                 => __('validation.required', ['attribute' => 'type']),
             "g-recaptcha-response.required" => __('validation.required', ['attribute' => 'g-recaptcha-response']),
 
             "id.string"       => __('validation.string', ['attribute' => 'id']),

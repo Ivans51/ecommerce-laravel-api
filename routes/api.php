@@ -46,34 +46,34 @@ Route::group([
 Route::group([
     'middleware' => 'auth:sanctum'
 ], function () {
-    Route::get('users/profile', [UserController::class, 'profile']);
-    Route::post('users/image-profile', [UserController::class, 'updateImageProfile']);
-    Route::put('users/password', [UserController::class, 'updatePassword']);
+    Route::get('user/profile', [UserController::class, 'profile']);
+    Route::post('user/image-profile', [UserController::class, 'updateImageProfile']);
+    Route::put('user/password', [UserController::class, 'updatePassword']);
+    Route::resource('user', UserController::class);
 
     /* Admin */
     Route::group(array(
         'middleware' => 'checkUserApi:' . Constants::ROLE_ADMIN
     ), function () {
-        Route::get('users-list', [UserController::class, 'userList']);
-        Route::get('cart-items-list', [CartItemController::class, 'cartItemList']);
-        Route::get('order-details-list', [OrderDetailsController::class, 'orderDetailsList']);
+        Route::get('user-list', [UserController::class, 'userList']);
+        Route::get('cart-item-list', [CartItemController::class, 'cartItemList']);
+        Route::get('order-detail-list', [OrderDetailsController::class, 'orderDetailsList']);
 
-        Route::get('cart-items', [CartItemController::class, 'index']);
-        Route::get('cart-items/{id}', [CartItemController::class, 'show']);
-        Route::delete('cart-items/{id}', [CartItemController::class, 'destroy']);
+        Route::get('cart-item', [CartItemController::class, 'index']);
+        Route::get('cart-item/{id}', [CartItemController::class, 'show']);
+        Route::delete('cart-item/{id}', [CartItemController::class, 'destroy']);
 
-        Route::get('order-details', [OrderDetailsController::class, 'index']);
-        Route::get('order-details/{id}', [OrderDetailsController::class, 'show']);
-        Route::delete('order-details/{id}', [OrderDetailsController::class, 'destroy']);
+        Route::get('order-detail', [OrderDetailsController::class, 'index']);
+        Route::get('order-detail/{id}', [OrderDetailsController::class, 'show']);
+        Route::delete('order-detail/{id}', [OrderDetailsController::class, 'destroy']);
 
-        Route::resource('users', UserController::class);
-        Route::resource('user-payments', UserPaymentController::class);
-        Route::resource('user-addresses', UserAddressController::class);
-        Route::resource('product-categories', ProductCategoryController::class);
-        Route::resource('product-inventories', ProductInventoryController::class);
-        Route::resource('discounts', DiscountController::class);
-        Route::resource('products', ProductController::class);
-        Route::resource('menus', MenuController::class);
+        Route::resource('user-payment', UserPaymentController::class);
+        Route::resource('user-address', UserAddressController::class);
+        Route::resource('product-category', ProductCategoryController::class);
+        Route::resource('product-inventory', ProductInventoryController::class);
+        Route::resource('discount', DiscountController::class);
+        Route::resource('product', ProductController::class);
+        Route::resource('menu', MenuController::class);
         Route::get('menus-admin', [MenuController::class, 'admin']);
     });
 
