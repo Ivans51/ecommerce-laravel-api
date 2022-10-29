@@ -21,4 +21,4 @@ echo "Link files"
 php artisan storage:link
 
 echo "Run test"
-php artisan test
+php artisan test --exclude-group ignore
