@@ -18,4 +18,5 @@ class Constants
     // Testing
     const TEST_USER_CUSTOMER = 'customer@ecommerce-laravel.com';
     const TEST_USER_ADMIN = 'admin@ecommerce-laravel.com';
+    const TEST_USER = 'testing@ecommerce-laravel.com';
 }
