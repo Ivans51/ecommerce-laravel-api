@@ -119,7 +119,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_update_image_profile()
+    /*public function test_update_image_profile()
     {
         $user = User::query()->inRandomOrder()->first();
 
@@ -138,7 +138,7 @@ class UserTest extends TestCase
             ]);
 
         $response->assertStatus(204);
-    }
+    }*/
 
     /**
      * A basic feature test example.
