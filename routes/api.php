@@ -47,11 +47,6 @@ Route::group([
 Route::group([
     'middleware' => 'auth:sanctum'
 ], function () {
-    Route::get('user/profile', [UserController::class, 'profile']);
-    Route::post('user/image-profile', [UserController::class, 'updateImageProfile']);
-    Route::put('user/password', [UserController::class, 'updatePassword']);
-    Route::resource('user', UserController::class);
-
     /* Admin */
     Route::group(array(
         'middleware' => 'checkUserApi:' . Constants::ROLE_ADMIN
@@ -69,6 +64,8 @@ Route::group([
         Route::get('order-detail/{id}', [OrderDetailsController::class, 'show']);
         Route::delete('order-detail/{id}', [OrderDetailsController::class, 'destroy']);
 
+        Route::get('menus-admin', [MenuController::class, 'admin']);
+
         Route::resource('user-role', UserRoleController::class);
         Route::resource('user-payment', UserPaymentController::class);
         Route::resource('user-address', UserAddressController::class);
@@ -77,7 +74,6 @@ Route::group([
         Route::resource('discount', DiscountController::class);
         Route::resource('product', ProductController::class);
         Route::resource('menu', MenuController::class);
-        Route::get('menus-admin', [MenuController::class, 'admin']);
     });
 
     /* Customer */
@@ -92,4 +88,9 @@ Route::group([
         Route::post('order-details', [OrderDetailsController::class, 'store']);
         Route::put('order-details/{id}', [OrderDetailsController::class, 'update']);
     });
+
+    Route::get('user/profile', [UserController::class, 'profile']);
+    Route::post('user/image-profile', [UserController::class, 'updateImageProfile']);
+    Route::put('user/password', [UserController::class, 'updatePassword']);
+    Route::resource('user', UserController::class);
 });
