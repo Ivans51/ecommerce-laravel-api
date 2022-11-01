@@ -77,7 +77,7 @@ class CartItemController extends Controller
                 'total' => $shoppingSession->first()->total + 1
             ]);
 
-            return $this->isUpdated($cartItemResponse, $shoppingResponse);
+            return $this->isCreated($cartItemResponse, $shoppingResponse);
 
         } catch (Exception $e) {
             DB::rollBack();
