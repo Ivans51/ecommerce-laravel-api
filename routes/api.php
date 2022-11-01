@@ -57,20 +57,10 @@ Route::group([
         Route::get('order-detail/list', [OrderDetailsController::class, 'orderDetailsList']);
         Route::get('product/list', [ProductController::class, 'productList']);
 
-        Route::get('cart-item', [CartItemController::class, 'index']);
-        Route::get('cart-item/{id}', [CartItemController::class, 'show']);
-        Route::delete('cart-item/{id}', [CartItemController::class, 'destroy']);
-
-        Route::get('order-detail', [OrderDetailsController::class, 'index']);
-        Route::get('order-detail/{id}', [OrderDetailsController::class, 'show']);
-        Route::delete('order-detail/{id}', [OrderDetailsController::class, 'destroy']);
-
         Route::get('menus-admin', [MenuController::class, 'admin']);
 
         Route::resource('user-role', UserRoleController::class);
         Route::resource('product', ProductController::class);
-        Route::resource('cart-item', CartItemController::class);
-        Route::resource('order-detail', OrderDetailsController::class);
         Route::resource('menu', MenuController::class);
 
         Route::resource('user-payment', UserPaymentController::class);
@@ -85,16 +75,13 @@ Route::group([
         'middleware' => 'checkUserApi:' . Constants::ROLE_CUSTOMER
     ), function () {
         Route::get('menus-customer', [MenuController::class, 'customer']);
-
-        Route::post('cart-items', [CartItemController::class, 'store']);
-        Route::put('cart-items/{id}', [CartItemController::class, 'update']);
-
-        Route::post('order-details', [OrderDetailsController::class, 'store']);
-        Route::put('order-details/{id}', [OrderDetailsController::class, 'update']);
     });
 
     Route::get('user/profile', [UserController::class, 'profile']);
     Route::post('user/image-profile', [UserController::class, 'updateImageProfile']);
     Route::put('user/password', [UserController::class, 'updatePassword']);
     Route::resource('user', UserController::class);
+
+    Route::resource('cart-item', CartItemController::class);
+    Route::resource('order-detail', OrderDetailsController::class);
 });

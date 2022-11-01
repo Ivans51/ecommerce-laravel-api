@@ -16,10 +16,8 @@ return new class extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
-            $table->uuid('payment_id');
             $table->decimal('total');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('payment_id')->references('id')->on('payment_details');
             $table->timestamps();
         });
     }

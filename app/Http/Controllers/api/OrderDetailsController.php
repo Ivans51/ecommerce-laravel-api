@@ -24,13 +24,14 @@ class OrderDetailsController extends Controller
      */
     public function orderDetailsList(Request $request): DataBuilder
     {
+        $limit   = $request->query('limit', 5);
         $dateOne = $request->query('date_one');
         $dateTwo = $request->query('date_two');
 
         $response = OrderDetail::query()
             ->with(['user', 'paymentDetails', 'orderItems', 'orderItems.products'])
             ->createdAt($dateOne, $dateTwo)
-            ->paginate(2);
+            ->paginate($limit);
 
         return $this->api->data($response);
     }
@@ -73,7 +74,8 @@ class OrderDetailsController extends Controller
 
                 DB::beginTransaction();
 
-                $cartItems = CartItem::query()->whereSessionId($shoppingSession->id);
+                $cartItems = CartItem::query()
+                    ->whereSessionId($shoppingSession->id);
 
                 $orderDetailsResponse = OrderDetail::query()
                     ->create([
@@ -101,10 +103,15 @@ class OrderDetailsController extends Controller
                     /* TODO: stripe */
                     /*$paymentResponse = $this->paymentResponse($orderDetailsResponse, $amount);*/
 
-                    $deleteCartItemsResponse = CartItem::query()->whereSessionId($shoppingSession->id)->delete();
-                    $deleteSessionResponse   = ShoppingSession::query()->whereId($shoppingSession->id)->delete();
+                    $deleteCartItemsResponse = CartItem::query()
+                        ->whereSessionId($shoppingSession->id)
+                        ->delete();
 
-                    return $this->isUpdated(
+                    $deleteSessionResponse = ShoppingSession::query()
+                        ->whereId($shoppingSession->id)
+                        ->delete();
+
+                    return $this->isCreated(
                         $orderDetailsResponse->exists(),
                         $isOrderItemsResponse,
                         /*$paymentResponse->exists(),*/
@@ -203,9 +210,15 @@ class OrderDetailsController extends Controller
         try {
             DB::beginTransaction();
 
-            $response = OrderDetail::whereId($id)->delete();
+            $orderItems = OrderItem::query()
+                ->where('order_id', $id)
+                ->delete();
 
-            return $this->isUpdated($response);
+            $response = OrderDetail::query()
+                ->whereId($id)
+                ->delete();
+
+            return $this->isUpdated($orderItems, $response);
 
         } catch (Exception $e) {
             DB::rollBack();

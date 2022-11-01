@@ -20,7 +20,6 @@ class OrderDetailFactory extends Factory
     {
         return [
             'user_id'    => User::query()->inRandomOrder()->first()->id,
-            'payment_id' => PaymentDetail::query()->inRandomOrder()->first()->id,
             'total'      => fake()->randomDigit(),
         ];
     }

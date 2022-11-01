@@ -40,8 +40,8 @@ class DatabaseSeeder extends Seeder
             'role_id' => UserRole::query()->where('type', Constants::ROLE_ADMIN)->first()->id
         ]);
 
-        PaymentDetail::factory(10)->create();
         OrderDetail::factory(10)->create();
+        PaymentDetail::factory(10)->create();
         ShoppingSession::factory(10)->create();
         Product::factory(10)->create();
         CartItem::factory(10)->create();

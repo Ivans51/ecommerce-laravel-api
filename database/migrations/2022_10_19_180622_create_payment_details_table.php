@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('amount');
             $table->string('provider');
             $table->enum('status', [StatusPayment::COMPLETED, StatusPayment::PENDING, StatusPayment::CANCELED]);
+            $table->uuid('order_details_id');
+            $table->foreign('order_details_id')->references('id')->on('order_details');
             $table->timestamps();
         });
     }
