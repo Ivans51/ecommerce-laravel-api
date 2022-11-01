@@ -77,16 +77,16 @@ class OrderDetailsController extends Controller
                 $cartItems = CartItem::query()
                     ->whereSessionId($shoppingSession->id);
 
-                $orderDetailsResponse = OrderDetail::query()
-                    ->create([
-                        'total'   => $shoppingSession->total,
-                        'user_id' => $user->id,
-                    ]);
-
                 $isOrderItemsResponse = true;
                 $cartItemList         = $cartItems->get();
 
                 if ($cartItems->exists() && sizeof($cartItemList) > 0) {
+                    $orderDetailsResponse = OrderDetail::query()
+                        ->create([
+                            'total'   => $shoppingSession->total,
+                            'user_id' => $user->id,
+                        ]);
+
                     foreach ($cartItemList as $item) {
                         $orderItemsSuccess = OrderItem::query()->create([
                             'quantity'   => $item->quantity,
@@ -210,15 +210,19 @@ class OrderDetailsController extends Controller
         try {
             DB::beginTransaction();
 
-            $orderItems = OrderItem::query()
+            OrderItem::query()
                 ->where('order_id', $id)
+                ->delete();
+
+            PaymentDetail::query()
+                ->where('order_details_id', $id)
                 ->delete();
 
             $response = OrderDetail::query()
                 ->whereId($id)
                 ->delete();
 
-            return $this->isUpdated($orderItems, $response);
+            return $this->isUpdated($response);
 
         } catch (Exception $e) {
             DB::rollBack();

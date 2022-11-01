@@ -61,23 +61,42 @@ class OrderDetailsTest extends TestCase
     public function test_store()
     {
         $userRole = UserRole::query()
-            ->where('type', Constants::ROLE_ADMIN)
+            ->where('type', Constants::ROLE_CUSTOMER)
             ->first();
 
         $user = User::query()->inRandomOrder()
             ->where('role_id', $userRole->id)
             ->first();
 
-        $shoppingSession = ShoppingSession::query()->create([
-            'total'   => 10,
-            'user_id' => $user->id,
-        ]);
+        $shoppingSession = ShoppingSession::query()
+            ->where('user_id', $user->id);
 
-        CartItem::query()->create([
-            'quantity'   => 5,
-            'session_id' => $shoppingSession->id,
-            'product_id' => Product::query()->inRandomOrder()->first()->id,
-        ]);
+        if ($shoppingSession->exists()) {
+            $shoppingId = $shoppingSession->first()->id;
+
+            $cartItem = CartItem::query()
+                ->where('session_id', $shoppingId);
+
+            if (!$cartItem->exists()) {
+                CartItem::query()->create([
+                    'quantity'   => 5,
+                    'session_id' => $shoppingId,
+                    'product_id' => Product::query()->inRandomOrder()->first()->id,
+                ]);
+            }
+
+        } else {
+            $shoppingSession = ShoppingSession::query()->create([
+                'total'   => 10,
+                'user_id' => $user->id,
+            ]);
+
+            CartItem::query()->create([
+                'quantity'   => 5,
+                'session_id' => $shoppingSession->id,
+                'product_id' => Product::query()->inRandomOrder()->first()->id,
+            ]);
+        }
 
         Sanctum::actingAs(
             $user,
