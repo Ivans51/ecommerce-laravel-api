@@ -12,6 +12,18 @@ use Throwable;
 
 class ProductController extends Controller
 {
+
+    /**
+     * @return DataBuilder
+     */
+    public function productList(): DataBuilder
+    {
+        $products = Product::query()
+            ->get();
+
+        return $this->api->data([$products]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +65,7 @@ class ProductController extends Controller
                     'discount_id'  => $request->input('discount_id'),
                 ]);
 
-            return $this->isUpdated($response);
+            return $this->isCreated($response);
 
         } catch (Exception $e) {
             return $this->responseError($e);

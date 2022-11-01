@@ -22,10 +22,10 @@ class ProductRequest extends FormRequest
                 'name'         => 'required|string',
                 'desc'         => 'required|string',
                 'SKU'          => 'required|string',
-                'price'        => 'required|integer',
-                'category_id'  => 'required|string|exists:product_categories,id',
+                'price'        => 'required|numeric',
+                /*'category_id'  => 'required|string|exists:product_categories,id',
                 'inventory_id' => 'required|string|exists:product_inventories,id',
-                'discount_id'  => 'required|string|exists:discounts,id',
+                'discount_id'  => 'required|string|exists:discounts,id',*/
             ],
             default => [],
         };

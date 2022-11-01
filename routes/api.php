@@ -55,6 +55,7 @@ Route::group([
         Route::get('user-role/list', [UserRoleController::class, 'roleList']);
         Route::get('cart-item/list', [CartItemController::class, 'cartItemList']);
         Route::get('order-detail/list', [OrderDetailsController::class, 'orderDetailsList']);
+        Route::get('product/list', [ProductController::class, 'productList']);
 
         Route::get('cart-item', [CartItemController::class, 'index']);
         Route::get('cart-item/{id}', [CartItemController::class, 'show']);
@@ -67,13 +68,16 @@ Route::group([
         Route::get('menus-admin', [MenuController::class, 'admin']);
 
         Route::resource('user-role', UserRoleController::class);
+        Route::resource('product', ProductController::class);
+        Route::resource('cart-item', CartItemController::class);
+        Route::resource('order-detail', OrderDetailsController::class);
+        Route::resource('menu', MenuController::class);
+
         Route::resource('user-payment', UserPaymentController::class);
         Route::resource('user-address', UserAddressController::class);
         Route::resource('product-category', ProductCategoryController::class);
         Route::resource('product-inventory', ProductInventoryController::class);
         Route::resource('discount', DiscountController::class);
-        Route::resource('product', ProductController::class);
-        Route::resource('menu', MenuController::class);
     });
 
     /* Customer */
