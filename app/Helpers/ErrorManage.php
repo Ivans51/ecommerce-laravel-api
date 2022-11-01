@@ -31,7 +31,28 @@ class ErrorManage extends BaseController
      * @return DataBuilder
      * @throws Throwable
      */
+    public function isCreated(...$checkList): DataBuilder
+    {
+        return $this->returnStatus($checkList, 201);
+    }
+
+    /**
+     * @param ...$checkList
+     * @return DataBuilder
+     * @throws Throwable
+     */
     public function isUpdated(...$checkList): DataBuilder
+    {
+        return $this->returnStatus($checkList, 204);
+    }
+
+    /**
+     * @param array $checkList
+     * @param int $status
+     * @return DataBuilder
+     * @throws Throwable
+     */
+    private function returnStatus(array $checkList, int $status): DataBuilder
     {
         $isPass = true;
         foreach ($checkList as $check) {
@@ -43,7 +64,7 @@ class ErrorManage extends BaseController
 
         if ($isPass) {
             DB::commit();
-            return $this->api->status(204);
+            return $this->api->status($status);
         } else {
             DB::rollBack();
             return $this->api->status(400)->data([

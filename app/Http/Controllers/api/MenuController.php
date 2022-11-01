@@ -86,7 +86,7 @@ class MenuController extends Controller
                     'type_id' => $request->input('type_id'),
                 ]);
 
-            return $this->isUpdated($response);
+            return $this->isCreated($response);
 
         } catch (Exception $e) {
             return $this->responseError($e);

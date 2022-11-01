@@ -40,7 +40,7 @@ class UserRoleController extends Controller
                     'permissions' => $request->input('permissions'),
                 ]);
 
-            return $this->isUpdated($response);
+            return $this->isCreated($response);
 
         } catch (Exception $e) {
             return $this->responseError($e);
