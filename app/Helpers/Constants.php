@@ -11,6 +11,7 @@ class Constants
 
     const ROLE_CUSTOMER = 'customer';
     const ROLE_ADMIN = 'admin';
+    const ROLE_GUEST = 'guest';
     const AUTHENTICATION = 'authentication';
 
     const PATH_IMAGE_PROFILE = 'images/profile';

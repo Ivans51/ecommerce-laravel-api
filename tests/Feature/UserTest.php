@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Helpers\Constants;
 use App\Models\User;
 use App\Models\UserRole;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -41,7 +39,7 @@ class UserTest extends TestCase
             [Constants::ROLE_ADMIN]
         );
 
-        $response = $this->getJson('/api/user-list');
+        $response = $this->getJson('/api/user/list');
 
         $response->assertStatus(200);
     }
@@ -58,11 +56,10 @@ class UserTest extends TestCase
             [Constants::ROLE_ADMIN]
         );
 
-        $roleId   = 'role_id=' . UserRole::query()->inRandomOrder()->first()->id;
-        $email    = 'email=' . User::query()->inRandomOrder()->first()->email;
-        $username = 'username=' . User::query()->inRandomOrder()->first()->username;
+        $roleId = 'role_id=' . UserRole::query()->inRandomOrder()->first()->id;
+        $email  = 'email=' . User::query()->inRandomOrder()->first()->email;
 
-        $response = $this->getJson('/api/user-list?' . $roleId . '&' . $email . '&' . $username);
+        $response = $this->getJson('/api/user/list?' . $roleId . '&' . $email);
 
         $response->assertStatus(200);
     }

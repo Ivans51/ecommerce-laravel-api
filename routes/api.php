@@ -12,6 +12,7 @@ use App\Http\Controllers\api\UserAddressController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\UserPaymentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,9 +56,10 @@ Route::group([
     Route::group(array(
         'middleware' => 'checkUserApi:' . Constants::ROLE_ADMIN
     ), function () {
-        Route::get('user-list', [UserController::class, 'userList']);
-        Route::get('cart-item-list', [CartItemController::class, 'cartItemList']);
-        Route::get('order-detail-list', [OrderDetailsController::class, 'orderDetailsList']);
+        Route::get('user/list', [UserController::class, 'userList']);
+        Route::get('user-role/list', [UserRoleController::class, 'roleList']);
+        Route::get('cart-item/list', [CartItemController::class, 'cartItemList']);
+        Route::get('order-detail/list', [OrderDetailsController::class, 'orderDetailsList']);
 
         Route::get('cart-item', [CartItemController::class, 'index']);
         Route::get('cart-item/{id}', [CartItemController::class, 'show']);
@@ -67,6 +69,7 @@ Route::group([
         Route::get('order-detail/{id}', [OrderDetailsController::class, 'show']);
         Route::delete('order-detail/{id}', [OrderDetailsController::class, 'destroy']);
 
+        Route::resource('user-role', UserRoleController::class);
         Route::resource('user-payment', UserPaymentController::class);
         Route::resource('user-address', UserAddressController::class);
         Route::resource('product-category', ProductCategoryController::class);

@@ -5,7 +5,9 @@ namespace App\Helpers;
 
 
 use App\Helpers\ApiResponse\DataBuilder;
+use App\Models\UserRole;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -51,6 +53,21 @@ class ErrorManage extends BaseController
     }
 
     /**
+     * @param string $table
+     * @param $value
+     * @param $column
+     * @param $exceptValue
+     * @return bool
+     */
+    public function checkExist(string $table, $value, $column, $exceptValue): bool
+    {
+        return DB::table($table)
+            ->where('id', '!=', $exceptValue)
+            ->where($column, $value)
+            ->exists();
+    }
+
+    /**
      * @param Exception $exception
      * @param string $message
      * @return DataBuilder
@@ -69,6 +86,33 @@ class ErrorManage extends BaseController
     {
         $isProd = config('app.env') == Constants::PROD;
         return $isProd ? $message : $exception->getMessage();
+    }
+
+    /**
+     * @param string $message
+     * @return DataBuilder
+     */
+    public function responseMessageError(string $message = 'Something is wrong!'): DataBuilder
+    {
+        return $this->api->status(400)->message($message);
+    }
+
+    /**
+     * @return Builder|UserRole|null
+     */
+    public function getUserRoleGuest(): Builder|UserRole|null
+    {
+        $userRole = UserRole::query()
+            ->where('type', Constants::ROLE_GUEST);
+
+        if ($userRole->exists()) {
+            return $userRole->first();
+        } else {
+            return UserRole::query()->create([
+                'type'        => Constants::ROLE_GUEST,
+                'permissions' => '',
+            ]);
+        }
     }
 
 }
