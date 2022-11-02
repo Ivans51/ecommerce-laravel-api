@@ -57,7 +57,7 @@ Route::group([
         Route::get('order-detail/list', [OrderDetailsController::class, 'orderDetailsList']);
         Route::get('product/list', [ProductController::class, 'productList']);
 
-        Route::get('menus-admin', [MenuController::class, 'admin']);
+        Route::get('menu-admin', [MenuController::class, 'admin']);
 
         Route::resource('user-role', UserRoleController::class);
         Route::resource('product', ProductController::class);
@@ -74,7 +74,7 @@ Route::group([
     Route::group(array(
         'middleware' => 'checkUserApi:' . Constants::ROLE_CUSTOMER
     ), function () {
-        Route::get('menus-customer', [MenuController::class, 'customer']);
+        Route::get('menu-customer', [MenuController::class, 'customer']);
     });
 
     Route::get('user/profile', [UserController::class, 'profile']);

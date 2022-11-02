@@ -15,11 +15,12 @@ class Menu extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected string $uuidColumnName = 'id';
+    protected $table = 'menus';
 
     protected $fillable = [
         'title',
         'url',
-        'type_id',
+        'role_id',
     ];
 
     /**

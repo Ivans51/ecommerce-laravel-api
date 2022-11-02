@@ -20,7 +20,7 @@ class MenuRequest extends FormRequest
         return match ($method) {
             'store', 'update' => [
                 'title'   => 'required|string',
-                'type_id' => 'required|string|exists:user_types,id',
+                'role_id' => 'required|string',
             ],
             default => [],
         };

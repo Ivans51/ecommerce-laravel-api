@@ -45,7 +45,7 @@ class MenuController extends Controller
         return $this->api->data(
             Menu::query()
                 ->with(['subMenu'])
-                ->whereTypeId($typeId)
+                ->where('role_id', $typeId)
                 ->paginate($perPage)
         );
     }
@@ -83,7 +83,7 @@ class MenuController extends Controller
             $response = Menu::query()
                 ->create([
                     'title'   => $request->input('title'),
-                    'type_id' => $request->input('type_id'),
+                    'role_id' => $request->input('role_id'),
                 ]);
 
             return $this->isCreated($response);
@@ -134,7 +134,7 @@ class MenuController extends Controller
                 ->where('id', '=', $id)
                 ->update([
                     'title'   => $request->input('title'),
-                    'type_id' => $request->input('type_id'),
+                    'role_id' => $request->input('role_id'),
                 ]);
 
             return $this->isUpdated($response);
